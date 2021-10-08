@@ -1,7 +1,5 @@
 package com.zavar.weblab3.hit;
 
-import javax.faces.bean.ManagedBean;
-
 public class Result {
     private String result;
     private Point point;
@@ -25,5 +23,9 @@ public class Result {
 
     public void setPoint(Point point) {
         this.point = point;
+    }
+
+    public String getStyle() {
+        return result.equals("Да") ? "yes" : "no";
     }
 }

@@ -5,7 +5,7 @@
 
 #blocks>div {
     font-family: fantasy;
-    border: solid black 2px;
+    border: solid gray 2px;
     background-color: white;
     border-radius: 15px;
     margin-top: 1%;
@@ -30,6 +30,12 @@ body {
 
 #footer:hover {
     color: aqua;
+}
+
+#main {
+    text-align: center;
+    padding: 2%;
+    font-size: 14pt;
 }
 
 #user {
@@ -83,6 +89,13 @@ body {
     z-index: 1;
 }
 
+.js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+    margin: 0 auto !important;
+}
+.js-plotly-plot .plotly .main-svg .draglayer {
+
+}
+
 #area {
     left: 50%;
     margin-left: -150px;
@@ -106,6 +119,25 @@ body {
 .info {
     color: #011c17;
     font-size: 12pt;
+}
+
+.yes {
+    color: chartreuse;
+}
+
+.no {
+    color: crimson;
+}
+
+#j_idt7 {
+    border: solid gold 2px;
+    background-color: white;
+    border-radius: 15px;
+    margin: 5px;
+}
+
+tr.ui-widget-content.ui-datatable-empty-message {
+    display: none;
 }
 
 form .glow-on-hover {

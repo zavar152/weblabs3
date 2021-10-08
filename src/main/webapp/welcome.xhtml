@@ -4,12 +4,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>JSF 2.0 Hello World</title>
+    <title>Web Lab 3</title>
+    <h:outputStylesheet library="css" name="main.css"/>
 </h:head>
-<h:body bgcolor="white">
-    <h2>JSF 2.0 Hello World Example - welcome.xhtml</h2>
-    <h2>Welcome #{helloBean.name}</h2>
+<h:body>
+
+    <div id="blocks">
+        <div id="head">
+            <span class="title">Абузов Ярослав Александрович, P3230 <br/>Вариант: 44, Batman Edition</span>
+        </div>
+
+        <div id="main">
+            <span>Время:</span>
+            <br/>
+            <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server"/>
+            <br/>
+            <h:form>
+                <p:commandButton action="index" styleClass="glow-on-hover" value="C'mon, let's go!"/>
+            </h:form>
+        </div>
+
+        <div id="footer">
+            <span class="itmo">Национальный исследовательский университет ИТМО, 2021г</span>
+        </div>
+    </div>
 </h:body>
+
 </html>

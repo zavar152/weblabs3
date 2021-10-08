@@ -6,17 +6,6 @@ offset = canvas.height / 2;
 const areaCanvas = document.getElementById('area');
 const areaCtx = areaCanvas.getContext('2d');
 
-function resetAll() {
-    resetArea();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    draw();
-}
-
-function resetArea() {
-    radiusGlobal = undefined;
-    areaCtx.clearRect(0, 0, areaCanvas.width, areaCanvas.height);
-}
-
 function drawArea(r) {
     console.log('Area r: ' + r);
     areaCtx.clearRect(0, 0, areaCanvas.width, areaCanvas.height);
@@ -71,19 +60,17 @@ function drawArea(r) {
     xValues = xValues.concat(tempX);
     yValues = yValues.concat(tempY);
 
-
-
     areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
+    areaCtx.moveTo(xValues[0]*r * kf + offset, -yValues[0]*r * kf + offset);
     for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
+        areaCtx.lineTo(xValues[i]*r * kf + offset, -yValues[i]*r * kf + offset);
         //console.log('X: ' + xValues[i] + " Y: " + yValues[i])
     }
     for(let i = 0; i < xValues.length; i++) {
         xValues[i] = -xValues[i];
     }
     for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
+        areaCtx.lineTo(xValues[i]*r * kf + offset, -yValues[i]*r * kf + offset);
         //console.log('X: ' + xValues[i] + " Y: " + yValues[i])
     }
     areaCtx.closePath;
@@ -260,26 +247,21 @@ function draw() {
 
 function clickSetup() {
     $("#graph").click(function (e) {
-
-        drawByJS([{name:'x', value:1}, {name:'y', value:1}]);
+        let rect = canvas.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+        x = (x / kf - (div / 2));
+        y = -(y / kf - (div / 2));
+        drawByJS([{name:'x', value: x}, {name:'y', value: y}]);
     });
 }
 
 function drawDotByClick(res, xD, yD) {
-        drawDot(xD * kf + offset, -yD * kf + offset, "#37f863", 3);
-        console.log('X: ' + xD * kf + offset)
-        console.log('Y: ' + yD * kf + offset)
-        //drawDot(xD * kf + offset, -yD * kf + offset, "#d02020", 3);
+    drawDot(xD * kf + offset, -yD * kf + offset, res, 3);
+    console.log('X: ' + xD * kf + offset)
+    console.log('Y: ' + yD * kf + offset)
+    //drawDot(xD * kf + offset, -yD * kf + offset, "#d02020", 3);
 }
-
-// function drawDotAtClick(event) {
-//     var rect = canvas.getBoundingClientRect();
-//     var x = event.clientX - rect.left;
-//     var y = event.clientY - rect.top;
-//
-//     drawDot(x, y, "#ce49f3", 3);
-//     let body = "x=" + (x / kf - (div / 2)) + "&y=" + -(y / kf - (div / 2)) + "&r=" + radiusGlobal;
-// }
 
 function drawSegmentX(beginFromX, n) {
     ctx.font = "14px serif";
@@ -328,55 +310,4 @@ function drawDot(x, y, color, size) {
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2, true);
     ctx.fill();
-}
-
-var radiusGlobal;
-
-function resetCheckBox(element) {
-    let reset = true;
-    document.getElementsByName('r').forEach((value) => {
-        if (!value.isEqualNode(element) && value.checked) {
-            value.checked = !value.checked;
-        }
-        if (value.isEqualNode(element)) {
-            radiusGlobal = value.value;
-            drawArea(value.value);
-            if (!value.checked) {
-                radiusGlobal = undefined;
-                resetArea();
-            }
-        }
-    });
-}
-
-function check() {
-    const r = radiusGlobal;
-    const x = document.forms["inForm"]["x"].value;
-    const y = document.forms["inForm"]["y"].value;
-
-    console.log('Got x: ' + x);
-    console.log('Got y: ' + y);
-    console.log('Got r: ' + r);
-
-    if (x !== '' && !isNaN(x) && (x >= -3 && x <= 5)) {
-        if (y !== '' && !isNaN(y) && !isNegativeZero(Number(y)) && (y >= -3 && y <= 5)) {
-            if (!isNaN(r) && (r == 1 || r == 1.5 || r == 2 || r == 2.5 || r == 3)) {
-                drawDot(x * kf + offset, -y * kf + offset, "#ce49f3", 3);
-                return true;
-            } else {
-                alert("Выберите корректное значение R");
-                return false;
-            }
-        } else {
-            alert("Введите корректное значение Y (-3..5)");
-            return false;
-        }
-    } else {
-        alert("Выберите корректное значение X");
-        return false;
-    }
-}
-
-function isNegativeZero(p) {
-    return p === 0 && (1 / p) === -Infinity
 }

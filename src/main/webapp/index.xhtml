@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -21,39 +19,53 @@
         <h:form id="calcForm">
             <h:panelGrid columns="1">
             <h:outputText value="Выберите X:"/>
-                <p:selectOneRadio id="x" layout="lineDirection" value="${pointBean.x}">
-                    <f:selectItem itemLabel="-4" itemValue="-4"/>
-                    <f:selectItem itemLabel="-3" itemValue="-3"/>
-                    <f:selectItem itemLabel="-2" itemValue="-2"/>
-                    <f:selectItem itemLabel="-1" itemValue="-1"/>
-                    <f:selectItem itemLabel="0" itemValue="0"/>
-                    <f:selectItem itemLabel="1" itemValue="1"/>
-                    <f:selectItem itemLabel="2" itemValue="2"/>
-                    <f:selectItem itemLabel="3" itemValue="3"/>
-                    <f:selectItem itemLabel="4" itemValue="4"/>
+                <p:selectOneRadio id="x" layout="lineDirection" value="${pointBean.x}" required="true">
+                    <f:selectItem itemLabel="-4" itemValue="-4.0"/>
+                    <f:selectItem itemLabel="-3" itemValue="-3.0"/>
+                    <f:selectItem itemLabel="-2" itemValue="-2.0"/>
+                    <f:selectItem itemLabel="-1" itemValue="-1.0"/>
+                    <f:selectItem itemLabel="0" itemValue="0.0"/>
+                    <f:selectItem itemLabel="1" itemValue="1.0"/>
+                    <f:selectItem itemLabel="2" itemValue="2.0"/>
+                    <f:selectItem itemLabel="3" itemValue="3.0"/>
+                    <f:selectItem itemLabel="4" itemValue="4.0"/>
                 </p:selectOneRadio>
             </h:panelGrid>
 
             <h:panelGrid columns="1">
                 <h:outputText value="Введите Y (-3...5):"/>
-                <p:inputNumber id="y" minValue="-3" maxValue="5" value="${pointBean.y}" emptyValue="zero"/>
+                <p:inputNumber id="y" minValue="-3" maxValue="5" value="${pointBean.y}" emptyValue="zero" required="true"/>
             </h:panelGrid>
 
             <h:panelGrid columns="1">
                 <h:outputText value="Выберите R:"/>
-                <p:inputNumber id="r" minValue="1" maxValue="4" value="${pointBean.r}" emptyValue="1"/>
-                <p:slider id="slider" for="r" minValue="1" maxValue="4" step="0.25"/>
+                <p:inputNumber id="r" minValue="0.25" maxValue="1.25" onchange="changeR()" value="${pointBean.r}" emptyValue="1"/>
+                <p:slider id="slider" for="r" minValue="0.25" maxValue="1.25" step="0.05" onSlide="">
+                </p:slider>
             </h:panelGrid>
             <br/>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3">
                 <p:commandButton id="send" styleClass="glow-on-hover" value="Отправить" icon="pi pi-check" action="${pointBean.check()}"
                 update="resTable"/>
                 <p:commandButton id="reset" styleClass="glow-on-hover" value="Сброс формы" icon="pi pi-times" action="${pointBean.reset()}"
                 update="x, y, r, slider"/>
+                <p:commandButton action="welcome" styleClass="glow-on-hover" value="На главную"/>
             </h:panelGrid>
+            <p:remoteCommand name="changeR" actionListener="#{pointBean.onParameterChange()}" style="display: none;"/>
+            <p:remoteCommand name="drawByJS" actionListener="#{pointBean.check()}" style="display: none;" update="resTable"/>
         </h:form>
     </div>
 
+    <div id="graphFrame">
+        <div id="graphFrameInner">
+            <div id="graphScroll">
+                <div id="graphHeight">
+                    <canvas id="graph" height="320" width="320"/>
+                    <canvas id="area" height="320" width="320"/>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="resFrame">
         <p:dataTable id="resTable" var="results" value="#{pointBean.list}" scrollable="true" scrollHeight="350">
             <p:column headerText="X">
@@ -69,7 +81,7 @@
             </p:column>
 
             <p:column headerText="Результат">
-                <h:outputText value="#{results.result}" />
+                <h:outputText value="#{results.result}" styleClass="#{results.getStyle()}"/>
             </p:column>
         </p:dataTable>
     </div>
@@ -78,6 +90,12 @@
         <span class="itmo">Национальный исследовательский университет ИТМО, 2021г</span>
     </div>
 </div>
+    <h:outputScript library="js" name="http_unpkg.com_mathjs@9.5.0_lib_browser_math.js"/>
+    <h:outputScript library="js" name="graph.js"/>
+    <h:outputScript library="js" name="http_code.jquery.com_jquery-3.4.1.js"/>
+    <script>
+        draw();
+    </script>
 </h:body>
 
 </html>

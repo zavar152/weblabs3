@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
     <title>Web Lab 3</title>
     <h:outputStylesheet library="css" name="main.css"/>
 </h:head>
 <h:body>
-
 <div id="blocks">
     <div id="head">
         <span class="title">Абузов Ярослав Александрович, P3230 <br/>Вариант: 44, Batman Edition</span>
@@ -40,19 +40,19 @@
             <h:panelGrid columns="1">
                 <h:outputText value="Выберите R:"/>
                 <p:inputNumber id="r" minValue="0.25" maxValue="1.25" onchange="changeR()" value="${pointBean.r}" emptyValue="1"/>
-                <p:slider id="slider" for="r" minValue="0.25" maxValue="1.25" step="0.05" onSlide="">
-                </p:slider>
+                <p:slider id="Rslider" for="r" minValue="0.25" maxValue="1.25" step="0.05" animate="true" />
             </h:panelGrid>
             <br/>
             <h:panelGrid columns="3">
                 <p:commandButton id="send" styleClass="glow-on-hover" value="Отправить" icon="pi pi-check" action="${pointBean.check()}"
                 update="resTable"/>
                 <p:commandButton id="reset" styleClass="glow-on-hover" value="Сброс формы" icon="pi pi-times" action="${pointBean.reset()}"
-                update="x, y, r, slider"/>
+                update="x, y, r" disabled="true"/>
                 <p:commandButton action="welcome" styleClass="glow-on-hover" value="На главную"/>
             </h:panelGrid>
             <p:remoteCommand name="changeR" actionListener="#{pointBean.onParameterChange()}" style="display: none;"/>
             <p:remoteCommand name="drawByJS" actionListener="#{pointBean.check()}" style="display: none;" update="resTable"/>
+            <p:remoteCommand name="init" actionListener="#{pointBean.init()}" style="display: none;"/>
         </h:form>
     </div>
 
@@ -94,8 +94,14 @@
     <h:outputScript library="js" name="graph.js"/>
     <h:outputScript library="js" name="http_code.jquery.com_jquery-3.4.1.js"/>
     <script>
-        draw();
+        draw("${pointBean.r}");
     </script>
+
+    <ui:repeat value="#{pointBean.list}" var="res">
+        <script>
+            drawDotByClick((("#{res.getResultAsBoolean()}" === 'true') ? "#37f863" : "crimson"), "#{res.point.x}", "#{res.point.y}");
+        </script>
+    </ui:repeat>
 </h:body>
 
 </html>

@@ -4,11 +4,18 @@ import com.zavar.weblab3.hit.Point;
 import com.zavar.weblab3.hit.Result;
 import org.primefaces.PrimeFaces;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -17,11 +24,15 @@ import java.util.Map;
 public class PointBean implements Serializable {
 
     private static final long serialVersionUID = 2041275512219239990L;
-    private ArrayList<Result> list = new ArrayList<Result>();
+    private final ArrayList<Result> list = new ArrayList<Result>();
 
     private float x = 0.0F;
     private float y = 0.0F;
     private float r = 0.85F;
+
+    public void init() {
+        System.out.println("lol");
+    }
 
     public float getX() {
         return x;
@@ -57,19 +68,39 @@ public class PointBean implements Serializable {
         PrimeFaces.current().executeScript("drawArea(" + r + ")");
     }
 
-    public void check() {
+    public void loadAll() {
+        for (Result res: list) {
+            PrimeFaces.current().executeScript("drawDotByClick('" + (res.getResultAsBoolean() ? "#37f863" : "crimson") + "'," + res.getPoint().getX() + ", " + res.getPoint().getY() + ")");
+        }
+    }
+
+    public void check() throws NamingException, SQLException {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String,String> params = context.getExternalContext().getRequestParameterMap();
         String xP = params.get("x");
         String yP = params.get("y");
+        float tX;
+        float tY;
+        boolean temp;
         if(yP == null || xP == null) {
-            list.add(new Result(true, new Point(x, y, r)));
-            PrimeFaces.current().executeScript("drawDotByClick('#37f863'," + x + ", " + y + ")");
+            tX = x;
+            tY = y;
         } else {
-            list.add(new Result(true, new Point(Float.parseFloat(xP), Float.parseFloat(yP), r)));
-            PrimeFaces.current().executeScript("drawDotByClick('#37f863'," + xP + ", " + yP + ")");
+            tX = Float.parseFloat(xP);
+            tY = Float.parseFloat(yP);
         }
+        temp = isIn(tX, tY, r);
+        list.add(new Result(temp, new Point(tX, tY, r)));
+        PrimeFaces.current().executeScript("drawDotByClick('" + (temp ? "#37f863" : "crimson") + "'," + tX + ", " + tY + ")");
 
+    }
+
+
+    private boolean isIn(float x, float y, float r) {
+        return Math.pow(x/r/7, 2) * Math.sqrt((Math.abs(Math.abs(x/r)-3))/(Math.abs(x/r)-3)) + Math.pow(y/r/3, 2)*Math.sqrt((Math.abs(y/r + 3* Math.sqrt(33) / 7))/(y/r + 3* Math.sqrt(33) / 7)) - 1 <= 0 |
+                (Math.abs(x/r/2) - ((3*Math.sqrt(33)-7)*x/r*x/r)/112 - 3 + Math.sqrt(1 - Math.pow(Math.abs(Math.abs(x/r) - 2) - 1, 2)) - y/r <= 0 & y/r <= 0 & -3 <= y/r & -4 <= x/r & x/r <= 4) |
+                (-Math.abs(x/r) / 2 - 3 * Math.sqrt(10) / 7 * Math.sqrt(4 - Math.pow(Math.abs(x/r) - 1, 2)) - y/r + 6 * Math.sqrt(10) / 7 + 1.5 >= 0 & y/r > 0)
+                | (1.5 + 3*Math.abs(x/r) + 0.75 - y/r >= 0 & y/r <= 4 & y/r > 0) & (9 - 8*Math.abs(x/r) - y/r >= 0 & y/r <= 4 & y/r > 0);
     }
 
     public ArrayList<Result> getList() {

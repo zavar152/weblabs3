@@ -3,14 +3,20 @@ package com.zavar.weblab3.hit;
 public class Result {
     private String result;
     private Point point;
+    private boolean resultBoolean;
 
     public Result(boolean result, Point point) {
+        resultBoolean = result;
         this.result = result ? "Да" : "Нет";
         this.point = point;
     }
 
     public String getResult() {
         return result;
+    }
+
+    public boolean getResultAsBoolean() {
+        return resultBoolean;
     }
 
     public void setResult(String result) {

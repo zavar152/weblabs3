@@ -1,10 +1,10 @@
-canvas = document.getElementById('graph');
-ctx = canvas.getContext('2d');
-div = 18;
-kf = canvas.height / div;
-offset = canvas.height / 2;
-const areaCanvas = document.getElementById('area');
-const areaCtx = areaCanvas.getContext('2d');
+var canvas = document.getElementById('graph');
+var ctx = canvas.getContext('2d');
+var div = 18;
+var kf = canvas.height / div;
+var offset = canvas.height / 2;
+var areaCanvas = document.getElementById('area');
+var areaCtx = areaCanvas.getContext('2d');
 
 function drawArea(r) {
     console.log('Area r: ' + r);
@@ -15,7 +15,7 @@ function drawArea(r) {
         return expr.evaluate({x: x})
     })
 
-    expr = math.compile('((2.71052+(1.5-.5abs(x))-1.35526sqrt(4-(abs(x)-1)^2))sqrt(abs(abs(x)-1)/(abs(x)-1))+0.9)');
+    expr = math.compile('((2.71052+(1.5-.5abs(x))-1.35526sqrt(4-(abs(x)-1)^2))sqrt(abs(abs(x)-1)/(abs(x)-1)))');
     var tempX = (math.range(0, 3, 0.05).toArray());
     var tempY = (tempX.map(function (x) {
         return expr.evaluate({x: x})
@@ -224,7 +224,7 @@ function seg5() {
     areaCtx.stroke();
 }
 
-function draw() {
+function draw(r) {
     ctx.strokeRect(0, 0, canvas.height, canvas.width);
     ctx.beginPath();
     ctx.moveTo(canvas.width / 2, 0);
@@ -242,7 +242,7 @@ function draw() {
     drawSegmentX(0, div);
     drawSegmentY(0, div);
     clickSetup();
-    drawArea(1);
+    drawArea(r);
 }
 
 function clickSetup() {
@@ -258,9 +258,9 @@ function clickSetup() {
 
 function drawDotByClick(res, xD, yD) {
     drawDot(xD * kf + offset, -yD * kf + offset, res, 3);
+    console.log('C: ' + res);
     console.log('X: ' + xD * kf + offset)
     console.log('Y: ' + yD * kf + offset)
-    //drawDot(xD * kf + offset, -yD * kf + offset, "#d02020", 3);
 }
 
 function drawSegmentX(beginFromX, n) {

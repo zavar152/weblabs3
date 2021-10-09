@@ -130,7 +130,7 @@ body {
 }
 
 #j_idt7 {
-    border: solid gold 2px;
+    border: solid orange 2px;
     background-color: white;
     border-radius: 15px;
     margin: 5px;
@@ -153,7 +153,7 @@ form .glow-on-hover {
 
 form .glow-on-hover:before {
     content: '';
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background: linear-gradient(45deg, #ff0000, #ff7300, #f89e37, #f8bb37, #f8f537, #f8bb37, #f89e37, #ff7300, #ff0000);
     position: absolute;
     top: -2px;
     left:-2px;
@@ -196,4 +196,44 @@ form .glow-on-hover:after {
     0% { background-position: 0 0; }
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
+}
+
+.ui-slider .ui-slider-range{
+    background: orange !important;
+}
+.ui-slider .ui-slider-handle {
+    border: 2px solid orange !important;
+}
+
+.ui-slider .ui-slider-handle.ui-state-hover {
+    border-color: orange !important;
+    background: orange !important;
+}
+
+.ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    border-color: orange !important;
+    background: orange !important;
+}
+
+.ui-radiobutton .ui-radiobutton-box.ui-state-hover {
+    border-color: orange !important;
+}
+
+.ui-inputfield.ui-state-hover {
+    border-color: orange !important;
+}
+
+.ui-inputfield.ui-state-focus {
+    border-color: orange !important;
+    box-shadow: 0 0 0 0.2em rgba(255, 165, 0, 0.38) !important;
+}
+
+.ui-radiobutton .ui-radiobutton-box.ui-state-focus {
+    border-color: orange !important;
+    box-shadow: 0 0 0 0.2em rgba(255, 165, 0, 0.38) !important;
+}
+
+.ui-button.ui-state-focus {
+    border-color: orange !important;
+    box-shadow: 0 0 0 0.2em rgba(255, 165, 0, 0.38) !important;
 }

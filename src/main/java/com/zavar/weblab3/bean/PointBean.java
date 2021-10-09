@@ -4,18 +4,10 @@ import com.zavar.weblab3.hit.Point;
 import com.zavar.weblab3.hit.Result;
 import org.primefaces.PrimeFaces;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -29,10 +21,6 @@ public class PointBean implements Serializable {
     private float x = 0.0F;
     private float y = 0.0F;
     private float r = 0.85F;
-
-    public void init() {
-        System.out.println("lol");
-    }
 
     public float getX() {
         return x;
@@ -68,13 +56,7 @@ public class PointBean implements Serializable {
         PrimeFaces.current().executeScript("drawArea(" + r + ")");
     }
 
-    public void loadAll() {
-        for (Result res: list) {
-            PrimeFaces.current().executeScript("drawDotByClick('" + (res.getResultAsBoolean() ? "#37f863" : "crimson") + "'," + res.getPoint().getX() + ", " + res.getPoint().getY() + ")");
-        }
-    }
-
-    public void check() throws NamingException, SQLException {
+    public void check(){
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String,String> params = context.getExternalContext().getRequestParameterMap();
         String xP = params.get("x");

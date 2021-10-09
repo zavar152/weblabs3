@@ -7,7 +7,6 @@ var areaCanvas = document.getElementById('area');
 var areaCtx = areaCanvas.getContext('2d');
 
 function drawArea(r) {
-    console.log('Area r: ' + r);
     areaCtx.clearRect(0, 0, areaCanvas.width, areaCanvas.height);
     var expr = math.compile('2*sqrt(-abs(abs(x)-1)*abs(3-abs(x))/((abs(x)-1)*(3-abs(x))))(1+abs(abs(x)-3)/(abs(x)-3))sqrt(1-(x/7)^2)+(5+0.97(abs(x-.5)+abs(x+.5))-3(abs(x-.75)+abs(x+.75)))(1+abs(1-abs(x))/(1-abs(x)))')
     let xValues = math.range(0, 1, 0.05).toArray()
@@ -64,164 +63,16 @@ function drawArea(r) {
     areaCtx.moveTo(xValues[0]*r * kf + offset, -yValues[0]*r * kf + offset);
     for(let i = 0; i < xValues.length; i++) {
         areaCtx.lineTo(xValues[i]*r * kf + offset, -yValues[i]*r * kf + offset);
-        //console.log('X: ' + xValues[i] + " Y: " + yValues[i])
     }
     for(let i = 0; i < xValues.length; i++) {
         xValues[i] = -xValues[i];
     }
     for(let i = 0; i < xValues.length; i++) {
         areaCtx.lineTo(xValues[i]*r * kf + offset, -yValues[i]*r * kf + offset);
-        //console.log('X: ' + xValues[i] + " Y: " + yValues[i])
     }
     areaCtx.closePath;
     areaCtx.fillStyle = "#55c3e5";
     areaCtx.fill();
-}
-
-function seg1() {
-    areaCtx.clearRect(0, 0, areaCanvas.width, areaCanvas.height);
-    const expr = math.compile('2*sqrt(-abs(abs(x)-1)*abs(3-abs(x))/((abs(x)-1)*(3-abs(x))))(1+abs(abs(x)-3)/(abs(x)-3))sqrt(1-(x/7)^2)+(5+0.97(abs(x-.5)+abs(x+.5))-3(abs(x-.75)+abs(x+.75)))(1+abs(1-abs(x))/(1-abs(x)))')
-    xValues = math.range(0, 1, 0.05).toArray()
-    yValues = xValues.map(function (x) {
-        return expr.evaluate({x: x})
-    })
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-
-    for(let i = 0; i < xValues.length; i++) {
-        xValues[i] = -xValues[i];
-    }
-
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-}
-
-function seg2() {
-    const expr = math.compile('abs(x/2)-((3*sqrt(33)-7)/(112))*(x^2)-3+sqrt(1-(abs(abs(x)-2)-1)^2)');
-    xValues = math.range(0, 4, 0.05).toArray()
-    yValues = xValues.map(function (x) {
-        return expr.evaluate({x: x})
-    })
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-
-    for(let i = 0; i < xValues.length; i++) {
-        xValues[i] = -xValues[i];
-    }
-
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-}
-
-function seg3() {
-    const expr = math.compile('(2.71052+(1.5-.5abs(x))-1.35526sqrt(4-(abs(x)-1)^2))sqrt(abs(abs(x)-1)/(abs(x)-1))+0.9');
-    xValues = math.range(0, 3, 0.05).toArray()
-    yValues = xValues.map(function (x) {
-        return expr.evaluate({x: x})
-    })
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-
-    for(let i = 0; i < xValues.length; i++) {
-        xValues[i] = -xValues[i];
-    }
-
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-}
-
-function seg4() {
-    const expr = math.compile('-3sqrt(1-(x/7)^2)sqrt(abs(abs(x)-4)/(abs(x)-4))');
-    xValues = math.range(4, 7, 0.05).toArray()
-    yValues = xValues.map(function (x) {
-        return expr.evaluate({x: x})
-    })
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-
-    for(let i = 0; i < xValues.length; i++) {
-        xValues[i] = -xValues[i];
-    }
-
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-}
-
-function seg5() {
-    const expr = math.compile('7 * sqrt( 1 - y^2 / 9)');
-    yValues = math.range(0, 3, 0.05).toArray()
-    xValues = yValues.map(function (y) {
-        return expr.evaluate({y: y})
-    })
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
-
-    for(let i = 0; i < xValues.length; i++) {
-        xValues[i] = -xValues[i];
-    }
-
-    areaCtx.beginPath();
-    areaCtx.moveTo(xValues[0] * kf + offset, -yValues[0] * kf + offset);
-    for(let i = 0; i < xValues.length; i++) {
-        areaCtx.lineTo(xValues[i] * kf + offset, -yValues[i] * kf + offset);
-        console.log('X: ' + xValues[i] + " Y: " + yValues[i])
-    }
-    areaCtx.closePath;
-    areaCtx.stroke();
 }
 
 function draw(r) {
@@ -258,9 +109,6 @@ function clickSetup() {
 
 function drawDotByClick(res, xD, yD) {
     drawDot(xD * kf + offset, -yD * kf + offset, res, 3);
-    console.log('C: ' + res);
-    console.log('X: ' + xD * kf + offset)
-    console.log('Y: ' + yD * kf + offset)
 }
 
 function drawSegmentX(beginFromX, n) {
@@ -301,12 +149,6 @@ function drawSegmentY(beginFromY, n) {
 
 function drawDot(x, y, color, size) {
     ctx.fillStyle = color;
-    console.log('x: ' + x);
-    console.log('y: ' + y);
-
-    console.log('true x: ' + (x / kf - (div / 2)));
-    console.log('true y: ' + -(y / kf - (div / 2)));
-
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2, true);
     ctx.fill();

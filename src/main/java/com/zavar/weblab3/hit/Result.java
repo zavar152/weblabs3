@@ -1,22 +1,40 @@
 package com.zavar.weblab3.hit;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "POINTS")
 public class Result {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "RES")
     private String result;
+
+    @Embedded
     private Point point;
-    private boolean resultBoolean;
+
+    public Result() {
+
+    }
 
     public Result(boolean result, Point point) {
-        resultBoolean = result;
         this.result = result ? "Да" : "Нет";
         this.point = point;
     }
 
-    public String getResult() {
-        return result;
+    public Long getId() {
+        return id;
     }
 
-    public boolean getResultAsBoolean() {
-        return resultBoolean;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getResult() {
+        return result;
     }
 
     public void setResult(String result) {

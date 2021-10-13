@@ -91,14 +91,13 @@
 </div>
     <h:outputScript library="js" name="http_unpkg.com_mathjs@9.5.0_lib_browser_math.js"/>
     <h:outputScript library="js" name="graph.js"/>
-    <h:outputScript library="js" name="http_code.jquery.com_jquery-3.4.1.js"/>
     <script>
         draw("${pointBean.r}");
     </script>
 
     <ui:repeat value="#{pointBean.list}" var="res">
         <script>
-            drawDotByClick((("#{res.getResultAsBoolean()}" === 'true') ? "#37f863" : "crimson"), "#{res.point.x}", "#{res.point.y}");
+            drawDotByClick((("#{res.getResult()}" === 'Да') ? "#37f863" : "crimson"), "#{res.point.x}", "#{res.point.y}");
         </script>
     </ui:repeat>
 </h:body>

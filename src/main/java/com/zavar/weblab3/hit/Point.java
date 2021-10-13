@@ -1,9 +1,19 @@
 package com.zavar.weblab3.hit;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Embeddable;
+
+@Embeddable
+@Access(AccessType.PROPERTY)
 public class Point {
     private float x;
     private float y;
     private float r;
+
+    public Point() {
+
+    }
 
     public Point(float x, float y, float r) {
         this.x = x;

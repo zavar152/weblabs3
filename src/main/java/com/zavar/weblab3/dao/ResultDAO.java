@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class ResultDAO {
-    private EntityManager entityManager = Persistence.createEntityManagerFactory( "hibernate" ).createEntityManager();
+    private EntityManager entityManager;
     private boolean connected = true;
 
     public void open() {
@@ -19,7 +19,8 @@ public class ResultDAO {
     }
 
     public void close() {
-        entityManager.close();
+        if(entityManager != null)
+            entityManager.close();
     }
 
     public void send(Result result) {

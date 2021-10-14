@@ -75,6 +75,11 @@ function drawArea(r) {
     areaCtx.fill();
 }
 
+function clean() {
+    ctx.clearRect(0, 0, canvas.height, canvas.width);
+    areaCtx.clearRect(0, 0, areaCanvas.width, areaCanvas.height);
+}
+
 function draw(r) {
     ctx.strokeRect(0, 0, canvas.height, canvas.width);
     ctx.beginPath();

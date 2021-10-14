@@ -29,6 +29,7 @@ public class PointBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
+            resultDAO.open();
             list = (ArrayList<Result>) resultDAO.getAll();
         } catch (PersistenceException e) {
             resultDAO.setConnected(false);
@@ -92,6 +93,13 @@ public class PointBean implements Serializable {
         try {
             if(!resultDAO.isConnected()) {
                 resultDAO.open();
+                resultDAO.setConnected(true);
+                PrimeFaces.current().executeScript("clean()");
+                PrimeFaces.current().executeScript("draw(" + r + ")");
+                list = (ArrayList<Result>) resultDAO.getAll();
+                for (Result res: list) {
+                    PrimeFaces.current().executeScript("drawDotByClick('" + (res.getResult().equals("Да") ? "#37f863" : "crimson") + "'," + res.getPoint().getX() + ", " + res.getPoint().getY() + ")");
+                }
             }
             resultDAO.send(result);
             list.add(result);

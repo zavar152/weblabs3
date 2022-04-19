@@ -25,10 +25,10 @@ public class PointBean implements Serializable {
     private float x = 0.0F;
     private float y = 0.0F;
     private float r = 0.85F;
-sdfsdfsdfsdf
+
     @PostConstruct
     public void init() {
-        try {sdafdsafasdfasfd
+        try {
             resultDAO.open();
             list = (ArrayList<Result>) resultDAO.getAll();
         } catch (PersistenceException e) {

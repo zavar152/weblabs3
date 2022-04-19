@@ -170,7 +170,6 @@
                     </then>
                 </if>
                 <echo>Original commit: ${current.commit}</echo>
-                <echo>Current commit: ${previous.commit}</echo>
             </finally>
         </trycatch>
     </target>

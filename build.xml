@@ -149,7 +149,8 @@
 <!--                                </exec>-->
                             </catch>
                             <finally>
-                                <fail if="breakProperty"/>
+                                <echo>Well done</echo>
+<!--                                <fail if="breakProperty"/>-->
                             </finally>
                         </trycatch>
                     </sequential>

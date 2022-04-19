@@ -70,17 +70,24 @@
             </fileset>
         </path>
 
+        <echo>CP: ${test.classpath}</echo>
+
         <delete dir="${testDir}"/>
         <mkdir dir="${testDir}"/>
         <javac includeantruntime="false" destdir="${testDir}">
+            <classpath refid="classpath"/>
+            <src path="${srcDir}"/>
+            <src path="${resourcesDir}"/>
             <src path="${testSrcDir}"/>
             <classpath refid="test.classpath"/>
         </javac>
 
         <junit printsummary="on" haltonfailure="yes" fork="true">
             <classpath>
+                <path refid = "classpath"/>
                 <path refid = "test.classpath"/>
                 <pathelement location="${testDir}"/>
+                <pathelement location="${resourcesDir}"/>
             </classpath>
             <formatter type="brief" usefile="false" />
             <batchtest>

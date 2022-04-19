@@ -33,7 +33,7 @@ public class PointBean implements Serializable {
             list = (ArrayList<Result>) resultDAO.getAll();
         } catch (PersistenceException e) {
             resultDAO.setConnected(false);
-            resultDAO.close();
+            resultDAO.close();fghgf
             PrimeFaces.current().executeScript("alert('Проблемы с БД, попробуйте позже')");
             list = new ArrayList<Result>();
         }

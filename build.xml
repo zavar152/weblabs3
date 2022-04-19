@@ -137,11 +137,11 @@
                                 <property name="breakProperty" value="true"/>
                             </try>
                             <catch>
-                                <exec executable="git" outputproperty="previous.commit">
-                                    <arg value="rev-parse"/>
-                                    <arg value="HEAD"/>
-                                </exec>
-                                <echo>Error in compile target</echo>
+<!--                                <exec executable="git" outputproperty="previous.commit">-->
+<!--                                    <arg value="rev-parse"/>-->
+<!--                                    <arg value="HEAD"/>-->
+<!--                                </exec>-->
+<!--                                <echo>Error in compile target</echo>-->
 <!--                                <exec executable="git">-->
 <!--                                    <arg value="reset"/>-->
 <!--                                    <arg value="&#45;&#45;hard"/>-->
@@ -156,22 +156,22 @@
                     </sequential>
                 </for>
             </try>
-            <catch>
-                <echo>Finally</echo>
-            </catch>
-            <finally>
-                <if>
-                    <isset property="previous.commit"/>
-                    <then>
-                        <exec executable="git">
-                            <arg value="diff"/>
-                            <arg value="${previous.commit}"/>
-                            <redirector output="diff.txt" alwayslog="true"/>
-                        </exec>
-                    </then>
-                </if>
-                <echo>Original commit: ${current.commit}</echo>
-            </finally>
+<!--            <catch>-->
+<!--                <echo>Finally</echo>-->
+<!--            </catch>-->
+<!--            <finally>-->
+<!--                <if>-->
+<!--                    <isset property="previous.commit"/>-->
+<!--                    <then>-->
+<!--                        <exec executable="git">-->
+<!--                            <arg value="diff"/>-->
+<!--                            <arg value="${previous.commit}"/>-->
+<!--                            <redirector output="diff.txt" alwayslog="true"/>-->
+<!--                        </exec>-->
+<!--                    </then>-->
+<!--                </if>-->
+<!--                <echo>Original commit: ${current.commit}</echo>-->
+<!--            </finally>-->
         </trycatch>
     </target>
 

@@ -25,7 +25,7 @@ public class PointBean implements Serializable {
     private float x = 0.0F;
     private float y = 0.0F;
     private float r = 0.85F;
-
+sdfsdfsdfsdf
     @PostConstruct
     public void init() {
         try {

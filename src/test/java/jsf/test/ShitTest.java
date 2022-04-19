@@ -1,7 +1,12 @@
 package jsf.test;
 
+import com.zavar.weblab3.dao.ResultDAO;
+import com.zavar.weblab3.hit.Result;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
@@ -65,8 +70,22 @@ public class ShitTest {
     @Test
     public void testForm() {
         beginAt("index.xhtml");
-        setTextField("calcForm:x", "1");
         setTextField("calcForm:y_hinput", "-1");
+        setTextField("calcForm:r_hinput", "1");
         clickButton("calcForm:send");
+        setTextField("calcForm:y_hinput", "2");
+        setTextField("calcForm:r_hinput", "0.25");
+        clickButton("calcForm:send");
+        ResultDAO dao = new ResultDAO();
+        dao.open();
+        List<Result> all = dao.getAll();
+        Assert.assertEquals(-1, all.get(all.size()-2).getPoint().getY(), 0);
+        Assert.assertEquals(1, all.get(all.size()-2).getPoint().getR(), 0);
+        Assert.assertEquals("Да", all.get(all.size()-2).getResult());
+
+        Assert.assertEquals(2, all.get(all.size()-1).getPoint().getY(), 0);
+        Assert.assertEquals(0.25, all.get(all.size()-1).getPoint().getR(), 0);
+        Assert.assertEquals("Нет", all.get(all.size()-1).getResult());
+        dao.close();
     }
 }

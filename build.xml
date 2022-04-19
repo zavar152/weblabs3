@@ -156,7 +156,7 @@
                 </for>
             </try>
             <catch>
-                <echo>Finally</echo>
+                <echo>Well done</echo>
             </catch>
             <finally>
                 <if>

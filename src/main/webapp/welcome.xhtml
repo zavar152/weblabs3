@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>Web Lab 3</title>
+    <title>Web Lab 3 Home</title>
     <h:outputStylesheet library="css" name="main.css"/>
 </h:head>
 <h:body>
@@ -20,13 +20,13 @@
         <div id="main">
             <span>Часы нормального человека:</span>
             <br/>
-            <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server"/>
+            <p:clock id="normClock" pattern="HH:mm:ss dd.MM.yyyy" mode="server"/>
             <br/>
             <div id="time-container"></div>
             <script src="resources/js/clock.js" type="text/javascript"> </script>
             <br/>
-            <h:form>
-                <p:commandButton onclick="show()" action="index" styleClass="glow-on-hover" value="C'mon, let's go!"/>
+            <h:form id="mainForm">
+                <p:commandButton onclick="show()" id="index" action="index" styleClass="glow-on-hover" value="C'mon, let's go!"/>
             </h:form>
             <span id="con" style="display: none">Соединение...</span>
         </div>

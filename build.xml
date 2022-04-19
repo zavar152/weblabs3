@@ -1,0 +1,110 @@
+<project name="weblab3">
+    <property file="build.properties"/>
+
+    <target name="compile" description="Компиляция кода">
+        <mkdir dir="${buildDir}"/>
+        <mkdir dir="${buildDir}/resources"/>
+        <mkdir dir="${buildDir}/WEB-INF/classes"/>
+        <mkdir dir="${buildDir}/WEB-INF/lib"/>
+        <mkdir dir="${buildDir}/META-INF"/>
+
+        <path id="classpath">
+            <fileset dir="${libraryDir}" includes="*.jar"/>
+        </path>
+
+        <pathconvert property="compile.classpath" refid="classpath"/>
+        <echo>Classpath: ${compile.classpath}</echo>
+
+        <javac includeantruntime="false" destdir="${buildDir}/WEB-INF/classes">
+            <src path="${srcDir}"/>
+            <classpath refid="classpath"/>
+        </javac>
+
+        <copy todir="${buildDir}/WEB-INF/lib" flatten="true">
+            <path refid="classpath"/>
+        </copy>
+
+        <echo>Copying resources folder...</echo>
+
+        <copy todir="${buildDir}/WEB-INF/classes">
+            <fileset dir="${resourcesDir}" includes="**"/>
+        </copy>
+
+        <echo>Copying webapp folder...</echo>
+
+        <copy todir="${buildDir}">
+            <fileset dir="${webappDir}" includes="*.xhtml"/>
+        </copy>
+
+        <copy todir="${buildDir}/WEB-INF">
+            <fileset dir="${webappDir}/WEB-INF" includes="web.xml"/>
+        </copy>
+
+        <copy todir="${buildDir}/resources">
+            <fileset dir="${webappDir}/resources" includes="**"/>
+        </copy>
+
+        <echo>Creating manifest...</echo>
+        <manifest file="${buildDir}/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="Zavar30"/>
+            <attribute name="Created-By" value="ant"/>
+            <attribute name="Build-jdk" value="${java.version}"/>
+        </manifest>
+    </target>
+
+    <target name="build" depends="compile" description="Создание war файла">
+        <war destfile="${warDir}/${warName}">
+            <fileset dir="${buildDir}" includes="**"/>
+        </war>
+    </target>
+
+    <target name="clean" description="Очистка всех скомпилированных классов и временных файлов">
+        <delete dir="${buildDir}"/>
+    </target>
+
+    <target name="test" depends="build" description="Запуск тестов">
+
+        <path id="test.classpath">
+            <fileset dir="junit">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+        <delete dir="${testDir}"/>
+        <mkdir dir="${testDir}"/>
+        <javac includeantruntime="false" destdir="${testDir}">
+            <src path="${testSrcDir}"/>
+            <classpath refid="test.classpath"/>
+        </javac>
+
+        <junit printsummary="on" haltonfailure="yes" fork="true">
+            <classpath>
+                <path refid = "test.classpath"/>
+                <pathelement location="${testDir}"/>
+            </classpath>
+            <formatter type="brief" usefile="false" />
+            <batchtest>
+                <fileset dir="${testDir}">
+                    <include name="**/*Test*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="music" depends="build" description="Воспроизведение музыки по завершении сборки">
+        <sound>
+            <success source="sound/success.wav"/>
+        </sound>
+    </target>
+
+    <target name="history">
+
+    </target>
+
+</project>

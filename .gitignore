@@ -1,3 +1,6 @@
 /.idea/
 /target/
 /weblab3.iml
+/war/
+/test-classes/
+/build/

@@ -142,14 +142,13 @@
                                     <arg value="HEAD"/>
                                 </exec>
                                 <echo>Error in compile target</echo>
-<!--                                <exec executable="git">-->
-<!--                                    <arg value="reset"/>-->
-<!--                                    <arg value="&#45;&#45;hard"/>-->
-<!--                                    <arg value="HEAD~1"/>-->
-<!--                                </exec>-->
+                                <exec executable="git">
+                                    <arg value="reset"/>
+                                    <arg value="--hard"/>
+                                    <arg value="HEAD~1"/>
+                                </exec>
                             </catch>
                             <finally>
-                                <echo>Well done</echo>
                                 <fail if="breakProperty"/>
                             </finally>
                         </trycatch>
@@ -157,7 +156,7 @@
                 </for>
             </try>
             <catch>
-                <echo>Finally</echo>
+                <echo>Well done</echo>
             </catch>
             <finally>
                 <if>

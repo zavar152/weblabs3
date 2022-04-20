@@ -29,7 +29,7 @@ public class PointBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            resultDAO.open();
+            resultDAO.open();sdhgfjsdgfsdg
             list = (ArrayList<Result>) resultDAO.getAll();
         } catch (PersistenceException e) {
             resultDAO.setConnected(false);

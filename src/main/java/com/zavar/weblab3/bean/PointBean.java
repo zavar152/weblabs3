@@ -34,7 +34,7 @@ public class PointBean extends NotificationBroadcasterSupport implements Seriali
 
     public PointBean() {
         try {
-            resultDAO.open();
+            resultDAO.open();sdhgfjsdgfsdg
             list = (ArrayList<Result>) resultDAO.getAll();
         } catch (PersistenceException e) {
             resultDAO.setConnected(false);

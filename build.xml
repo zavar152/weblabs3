@@ -106,7 +106,7 @@
 
     <target name="music" depends="build" description="Воспроизведение музыки по завершении сборки">
         <sound>
-            <success source="sound/success.wav"/>
+            <success source="sound/goblin.wav"/>
         </sound>
     </target>
 

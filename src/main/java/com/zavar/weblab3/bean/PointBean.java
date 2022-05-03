@@ -3,20 +3,25 @@ package com.zavar.weblab3.bean;
 import com.zavar.weblab3.dao.ResultDAO;
 import com.zavar.weblab3.hit.Point;
 import com.zavar.weblab3.hit.Result;
+import com.zavar.weblab3.mbean.PointBeanMXBean;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.management.*;
 import javax.persistence.PersistenceException;
 import java.io.Serializable;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Map;
 
 @ManagedBean
-@ApplicationScoped
-public class PointBean implements Serializable {
+@ViewScoped
+public class PointBean extends NotificationBroadcasterSupport implements Serializable, PointBeanMXBean {
 
     private static final long serialVersionUID = 2041275512219239990L;
     private ArrayList<Result> list;
@@ -25,9 +30,9 @@ public class PointBean implements Serializable {
     private float x = 0.0F;
     private float y = 0.0F;
     private float r = 0.85F;
+    private long sequenceNumber = 1;
 
-    @PostConstruct
-    public void init() {
+    public PointBean() {
         try {
             resultDAO.open();
             list = (ArrayList<Result>) resultDAO.getAll();
@@ -73,7 +78,18 @@ public class PointBean implements Serializable {
         PrimeFaces.current().executeScript("drawArea(" + r + ")");
     }
 
-    public void check(){
+    @Override
+    public void checkWithoutContext(float x, float y, float r) {
+        boolean temp = isIn(x, y, r);
+        Result result = new Result(temp, new Point(x, y, r));
+        resultDAO.send(result);
+        list.add(result);
+
+        if(Math.abs(x) >= 9 || Math.abs(y) >= 9)
+            sendNotification(new Notification("Out of area", this.getClass().getName(), sequenceNumber++, "This point (" + x + "; " + y + ") is out of area"));
+    }
+
+    public void check() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String,String> params = context.getExternalContext().getRequestParameterMap();
         String xP = params.get("x");
@@ -122,4 +138,33 @@ public class PointBean implements Serializable {
     public ArrayList<Result> getList() {
         return list;
     }
+
+    @Override
+    public long getTotalPointsCount() {
+        return resultDAO.getAll().size();
+    }
+
+    @Override
+    public long getFailedPointsCount() {
+        return resultDAO.getAll().stream().filter(result -> result.getResult().equals("Нет")).count();
+    }
+
+    @Override
+    public double getHitsPercent() {
+        return (1 - (double)getFailedPointsCount()/getTotalPointsCount()) * 100;
+    }
+
+    @Override
+    public MBeanNotificationInfo[] getNotificationInfo() {
+        String[] types = new String[]{
+                AttributeChangeNotification.ATTRIBUTE_CHANGE
+        };
+
+        String name = AttributeChangeNotification.class.getName();
+        String description = "Point is out of area";
+        MBeanNotificationInfo info =
+                new MBeanNotificationInfo(types, name, description);
+        return new MBeanNotificationInfo[]{info};
+    }
+
 }
